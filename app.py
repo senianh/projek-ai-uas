@@ -330,6 +330,10 @@ elif st.session_state.page == 'ringkasan':
     if 'summary' in st.session_state:
         st.write(st.session_state.summary)
 
+        # Tambahkan fungsi sanitize
+        def sanitize_text_for_pdf(text):
+            return ''.join(c for c in text if ord(c) in range(32, 127) or ord(c) in range(160, 255))
+
         # Tombol unduh PDF ringkasan
         class PDF(FPDF):
             def header(self):
