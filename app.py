@@ -332,6 +332,7 @@ elif st.session_state.page == 'ringkasan':
 
         # Cetak ringkasan sebagai satu blok teks dengan justify
         summary_text = st.session_state.summary.replace("\n", " ")
+        summary_text = summary_text.encode("utf-8", "ignore").decode("utf-8")
         pdf.multi_cell(0, 10, summary_text, align="J")
 
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
