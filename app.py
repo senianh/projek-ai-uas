@@ -12,7 +12,7 @@ from backend.difficulty_classifier import predict_difficulty
 from backend.topic_cluster import predict_cluster  
 
 # API Key untuk mengakses Together API (LLM)
-api_key = st.secrets["OPENROUTER_API_KEY"]
+OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
 
 # Fungsi untuk menyaring kalimat yang tidak layak dijadikan soal
 def is_valid_sentence(sentence):
