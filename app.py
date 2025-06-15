@@ -40,7 +40,7 @@ def generate_mcq_llm(sentence, label=None, topic=None):
     )
 
     headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Authorization": f"Bearer {get_api_key()}",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://soalbot.streamlit.app",  # Bisa kamu ganti
         "X-Title": "SoalBot"
