@@ -12,7 +12,8 @@ from backend.difficulty_classifier import predict_difficulty
 from backend.topic_cluster import predict_cluster  
 
 # API Key untuk mengakses Together API (LLM)
-OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
+def get_api_key():
+    return st.secrets["OPENROUTER_API_KEY"]
 
 # Fungsi untuk menyaring kalimat yang tidak layak dijadikan soal
 def is_valid_sentence(sentence):
@@ -76,7 +77,7 @@ def generate_bulk_essay_llm(text, num_questions):
     )
 
     headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Authorization": f"Bearer {get_api_key()}",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://soalbot.streamlit.app",
         "X-Title": "SoalBot"
@@ -119,7 +120,7 @@ def generate_summary_llm(text):
     )
 
     headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Authorization": f"Bearer {get_api_key()}",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://soalbot.streamlit.app",
         "X-Title": "SoalBot"
@@ -145,7 +146,20 @@ def generate_summary_llm(text):
             return f"\u26a0\ufe0f Error {response.status_code}: {response.text}"
     except Exception as e:
         return f"\u274c Exception: {str(e)}"
+        
+# Generate PDF ringkasan unicode
 
+def generate_pdf(summary_text):
+    from fpdf import FPDF
+    import tempfile
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
+    pdf.set_font("DejaVu", size=12)
+    pdf.multi_cell(0, 10, summary_text, align="J")
+    tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+    pdf.output(tmp_file.name)
+    return tmp_file.name
 # ==================== USER INTERFACE - STREAMLIT =================
 
 # Konfigurasi awal tampilan
